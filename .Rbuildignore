@@ -1,0 +1,7 @@
+^codecov\.yml$
+^_pkgdown\.yml$
+^HISTORY\.md$
+^\.lintr$
+^\.github$
+^docs$
+^\.circleci$

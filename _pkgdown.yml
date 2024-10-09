@@ -1,0 +1,6 @@
+output: github_document
+template:
+  params:
+    docsearch:
+      index_name: writeHereTheRepositoryName
+      api_key: writeHereTheRepositoryDocSearchApiKey
