@@ -1,6 +1,7 @@
 ### Sum of numbers multiples of 3 or 5 bellow some number "num" ###
 
-multOfThreeFive__ <- function(num){
+#### SOLUTION 1 ####
+multOfThreeFive <- function(num){
     multiples <- c()
     for(i in 1:(num - 1)){
         if(i %% 5 == 0| i %% 3 == 0){
@@ -10,11 +11,12 @@ multOfThreeFive__ <- function(num){
     return(sum(multiples))
 }
 
-multOfThreeFiveSol2__ <- function(num){
+#### SOLUTION 2 ####
+multOfThreeFiveSol2 <- function(num){
     numbersBellow <- 1:(num - 1)
     multiplesOfFive <- (numbersBellow %% 5 == 0 | numbersBellow %% 3 == 0)
     return(sum(numbersBellow[multiplesOfFive]))
 }
 
-
-timeComparision(multOfThreeFive__, multOfThreeFiveSol2__, list(1000))
+#### COMPARING SOLUTIONS ####
+timeComparision(multOfThreeFive, multOfThreeFiveSol2, list(1000))

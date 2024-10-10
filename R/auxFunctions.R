@@ -6,10 +6,11 @@ timeMeasure <- function(fun, param){
 }
 
 timeComparision <- function(fun1, fun2, param){
-    print(paste(deparse(substitute(fun1)), "execution time: ",
-                                    timeMeasure(fun1, param)))
-    print(paste(deparse(substitute(fun2)), "execution time: ",
-                                    timeMeasure(fun2, param)))
-    print(paste("Time difference:",
-                timeMeasure(fun1, param) - timeMeasure(fun2, param)))
+    cat(paste("\n",
+    deparse(substitute(fun1)), "execution time: ",
+                                    timeMeasure(fun1, param), "\n",
+    deparse(substitute(fun2)), "execution time: ",
+                                    timeMeasure(fun2, param), "\n",
+    "Time difference:",
+                timeMeasure(fun1, param) - timeMeasure(fun2, param), "\n"))
 }
