@@ -19,4 +19,4 @@ multOfThreeFiveSol2 <- function(num){
 }
 
 #### COMPARING SOLUTIONS ####
-timeComparision(multOfThreeFive, multOfThreeFiveSol2, list(1000))
+timeComparision(multOfThreeFive, multOfThreeFiveSol2, list(1000), 100)

@@ -8,7 +8,7 @@ fibonacciSeqRec__ <- function(n){
     if(n == 2){
         return(c(1, 1))
     }
-    prevArray <- sumFibonacciNumber__(n - 1)
+    prevArray <- fibonacciSeqRec__(n - 1)
     aux <- length(prevArray)
     return(c(prevArray, prevArray[aux] + prevArray[aux - 1]))
 }
@@ -47,4 +47,4 @@ seqEvenSum <- function(max){
 }
 
 #### COMPARING SOLUTIONS ####
-timeComparision(seqEvenSumRec, seqEvenSum, list(1e16))
+timeComparision(seqEvenSumRec, seqEvenSum, list(1e16), 100)
