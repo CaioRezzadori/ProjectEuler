@@ -13,11 +13,13 @@ timeMeasure <- function(fun, param, nRep = 1){
 }
 
 timeComparision <- function(fun1, fun2, param, nRep){
+    timeFun1 <- timeMeasure(fun1, param, nRep)
+    timeFun2 <- timeMeasure(fun2, param, nRep)
     cat(paste("\n",
     deparse(substitute(fun1)), "execution time: ",
-                                    timeMeasure(fun1, param, nRep), "\n",
+                                    timeFun1, "\n",
     deparse(substitute(fun2)), "execution time: ",
-                                    timeMeasure(fun2, param, nRep), "\n",
+                                    timeFun2, "\n",
     "Time difference:",
-                timeMeasure(fun1, param, nRep) - timeMeasure(fun2, param, nRep), "\n"))
+                timeFun1 - timeFun2))
 }
