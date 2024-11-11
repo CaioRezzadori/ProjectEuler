@@ -5,3 +5,5 @@
 .DS_Store
 .quarto
 R/info
+exemplo.excalidraw
+R/collatzSeq.R

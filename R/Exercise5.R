@@ -1,4 +1,3 @@
-
 smallestMultiple <- function(limit){
     leastCommonMultiplesFactors <- c(1)
     for(multiple in 2:limit){

@@ -1,3 +1,19 @@
+##### Using gmp library ###############
+library(gmp)
+digitSumsFactorialGMP <- function(num){
+    fact <- gmp::factorialZ(num)
+    digitSum <- 0
+    while(fact > 0){
+        digitSum <- digitSum + fact %% 10
+        fact <- fact %/% 10
+    }
+    return(digitSum)
+}
+
+##########################################################
+
+##### Modular arithmetic solution #####
+# (A * B) mod C = (A mod C * B mod C) mod C
 upperMagnitudeFactorial <- function(num){
     digits <- 1
     for(i in 1:num){
@@ -23,18 +39,3 @@ lowerMagnitudeFactorial <- function(num){
     return(digits)
 }
 
-digitSumsFactorial <- function(num){
-    maxDigits <- upperMagnitudeFactorial(num)
-    digitsValue <- c()
-    nDigit <- 1
-    while(nDigit <= maxDigits){
-        value <- 1
-        previousValue <- digitsValue[nDigit]
-        for(i in 1:num){
-            value <- (value*i) %/% 10
-            previousValue <- previousValue*i
-        }
-        nDigit <- nDigit + 1
-    }
-    return(aux)
-}
