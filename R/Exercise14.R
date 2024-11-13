@@ -14,18 +14,15 @@ collatzSeq <- function(num){
     return(seq)
 }
 
+### Trying to optmize (save sequences) ####
 ############################################################
 largestCollatzSeq <- function(limit){
     seqNumbers <- list()
     seqNumbers["1"] = 1
-    # seqLengths <- list(1)
     for(num in 2:limit){
-        if(num == 6171){
-            browser()
-        }
+
         auxNum <- num
         i <- 0
-        # browser()
         while(auxNum >= 1){
             auxNum <- as.character(auxNum)
             if(!is.null(seqNumbers[[auxNum]])){
@@ -43,8 +40,9 @@ largestCollatzSeq <- function(limit){
     maxSeq <- names(seqNumbers[seqNumbers == lenMax])
     maxSeq <- as.integer(maxSeq)
     return(maxSeq)
-}
+} #(Was worse than brute force)
 
+#### Brute force ####
 ######################################################
 largestCollatzSeqNoOptimized <- function(limit){
     maxSeq <- 1
@@ -61,6 +59,7 @@ largestCollatzSeqNoOptimized <- function(limit){
 
 
 ###### Using memoise ########
+######################################################
 library(memoise)
 
 collatzSeqRec <- function(num){
@@ -87,28 +86,3 @@ largestCollatzSeqMemoise <- function(limit){
     }
     return(list(number = maxSeq, length = lenMax))
 }
-
-
-largestCollatzSeqMemoise(5e5)
-
-#### COMPARING SOLUTIONS ####
-
-timeComparision(largestCollatzSeqNoOptimized,
-                largestCollatzSeqMemoise, list(1e5), 1)
-
-
-
-timeComparision(largestCollatzSeqNoOptimized,
-                largestCollatzSeq, list(2000), 1)
-
-
-largestCollatzSeq(10000)
-largestCollatzSeqNoOptimized(100000)
-
-
-
-
-l <- largestCollatzSeq(1e6)
-
-l$number[(l$length == max(l$length))]
-teste$number[(teste$length == max(teste$length))]
