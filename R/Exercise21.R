@@ -1,12 +1,10 @@
 sumOfDivisors__ <- function(num){
-    divisors <- c()
-    i <- 1
-    while(i < (num - 1)){
-        if(num %% i == 0){
-            divisors <- c(divisors, i)
-        }
-        i <- i + 1
+    if(num == 1 | num == 0){
+        return(0)
     }
+    seq <- 1:(num - 1)
+    divisors <- seq[(num %% seq) == 0]
+
     return(sum(divisors))
 }
 
@@ -26,3 +24,5 @@ sumOfAmicable <- function(limit){
     }
     return(sum(amicableNums))
 }
+
+sumOfAmicable(1e4)

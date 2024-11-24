@@ -44,4 +44,10 @@ filepath <- "/home/caio/Documentos/github/ProjectEuler/data/Exercise22.txt"
 
 data <- readData__(filepath)
 
-scoreSums(data)
+
+
+library(profvis)
+library(htmlwidgets)
+var <- profvis::profvis(scoreSums(data))
+saveWidget(var, "var.html")
+
