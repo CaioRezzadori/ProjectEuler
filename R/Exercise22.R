@@ -1,33 +1,19 @@
 readData__ <- function(filepath){
-    data <- read.table(
-                file = filepath,
-                sep = ",",
-                header = FALSE)
+    data <- readLines(filepath)
 
-    data <- unlist(data, use.names = FALSE)
-    data[is.na(data)] <- "NA"
+    data <- unlist(strsplit(data, ","))
+    data <- gsub("\"", "", data)
 
     return(data[order(data)])
 }
 
-alphabetWeights__ <- function(){
-    alphabet <- "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    alphabet <- strsplit(alphabet, "")[[1]]
-    return(data.frame(Letter = alphabet,
-                      Weight = order(alphabet)))
-}
-
-library(dplyr)
 scoreCalculation__ <- function(name, index){
-    alphabetWeights <- alphabetWeights__()
-    nameWeights <- strsplit(name, "")[[1]]
-    nameWeights <- data.frame(Letter = nameWeights) %>%
-                                        dplyr::left_join(alphabetWeights,
-                                                         by = "Letter")
-    score <- nameWeights %>%
-                        dplyr::pull(Weight) %>%
-                        sum()
-    return(score*index)
+    alphabet <- "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    alphabet <- unlist(strsplit(alphabet, ""))
+    nameLetters <- unlist(strsplit(name, ""))
+    letterWeights <- unlist(
+                        Map(function(x) which(x == alphabet), nameLetters))
+    return(sum(letterWeights)*index)
 }
 
 scoreSums <- function(data){
@@ -41,13 +27,7 @@ scoreSums <- function(data){
 }
 
 filepath <- "/home/caio/Documentos/github/ProjectEuler/data/Exercise22.txt"
-
 data <- readData__(filepath)
 
-
-
-library(profvis)
-library(htmlwidgets)
-var <- profvis::profvis(scoreSums(data))
-saveWidget(var, "var.html")
+scoreSums(data)
 
