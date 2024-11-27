@@ -1,3 +1,4 @@
+# Swap positions from first element and the desired number
 swapFirst__ <- function(vec, number){
     vec[which(vec == number)] <- vec[1]
     vec[1] <- number
@@ -6,22 +7,21 @@ swapFirst__ <- function(vec, number){
 
 permuteDigits__ <- function(digitsVec, fixedDigits, counter, limit){
     if((length(counter) == 1) && (counter == limit)){
-        value <- c(fixedDigits, digitsVec)
-        return(value)
+        return(c(fixedDigits, digitsVec)            )
     }
     if(length(digitsVec) == 1){
         return(counter + 1)
     }
     for(i in digitsVec){
-        digitsVec <- swapFirst__(digitsVec, i)
-        if(length(counter) == 1){
-            counter <- permuteDigits__(digitsVec[-1],
-                    c(fixedDigits, digitsVec[1]), counter, limit)
+        if(length(counter) > 1){
+            break
         }
+        digitsVec <- swapFirst__(digitsVec, i)
+        counter <- permuteDigits__(digitsVec[-1],
+                c(fixedDigits, digitsVec[1]), counter, limit)
     }
     return(counter)
 }
-
 
 permuteDigits <- function(digitsVec, limit){
     return(permuteDigits__(digitsVec, fixedDigits = c(), counter = 1, limit))
