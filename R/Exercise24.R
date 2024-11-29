@@ -7,7 +7,7 @@ swapFirst__ <- function(vec, number){
 
 permuteDigits__ <- function(digitsVec, fixedDigits, counter, limit){
     if((length(counter) == 1) && (counter == limit)){
-        return(c(fixedDigits, digitsVec)            )
+        return(c(fixedDigits, digitsVec))
     }
     if(length(digitsVec) == 1){
         return(counter + 1)
@@ -23,8 +23,8 @@ permuteDigits__ <- function(digitsVec, fixedDigits, counter, limit){
     return(counter)
 }
 
-permuteDigits <- function(digitsVec, limit){
+getPermutation <- function(digitsVec, limit){
     return(permuteDigits__(digitsVec, fixedDigits = c(), counter = 1, limit))
 }
 
-digits <- permuteDigits(c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), 1e6)
+digits <- getPermutation(c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), 1e6)
