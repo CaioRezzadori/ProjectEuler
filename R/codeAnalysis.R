@@ -1,4 +1,4 @@
 library(profvis)
 library(htmlwidgets)
-var <- profvis::profvis(sum(numbersNotSumOfAbundant(28123)))
+var <- profvis::profvis(fibonacciIndex(1e4))
 saveWidget(var, "var.html")
