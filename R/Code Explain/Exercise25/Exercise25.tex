@@ -1,7 +1,45 @@
 \documentclass{article}
+\title{Project Euler - Exercise 25}
+% \author{Caio Assumpção Rezzadori}
+\date{}
 \usepackage{amsmath}
 \begin{document}
-    \begin{equation*}
-        f(x) = \sqrt{x}
-    \end{equation*}
+\maketitle
+The Fibonacci Sequence is given by $f_n = f_{n - 1} + f_{n - 2}$
+where\\ $f_0= f_1 = 1$.
+If we define the linear transformation above
+\begin{equation*}
+    T =
+    \begin{bmatrix}
+        0 & 1\\
+        1 & 1
+    \end{bmatrix} \Rightarrow
+    T \begin{bmatrix}
+        f_{n - 2} \\
+        f_{n - 1}
+    \end{bmatrix} =
+    \begin{bmatrix}
+        f_{n - 1} \\
+        f_{n - 1} + f_{n - 2}
+    \end{bmatrix} =
+    \begin{bmatrix}
+        f_{n - 1} \\
+        f_{n}
+    \end{bmatrix}
+\end{equation*}
+Then, if we want the $n$'th term of the sequence, we just have to compute:
+\begin{equation*}
+    T^n\begin{bmatrix}
+        1 \\
+        1
+    \end{bmatrix} = \begin{bmatrix}
+        f_{n - 1}\\
+        f_n
+    \end{bmatrix}
+\end{equation*}
+
+By the Spectral Theorem, since $T$ is a symmetric matrix, we can decompose on
+it's eigenvalues and eigenvectors:
+
+
 \end{document}

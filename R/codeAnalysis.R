@@ -1,4 +1,4 @@
 library(profvis)
 library(htmlwidgets)
-var <- profvis::profvis(fibonacciIndex(1e4))
+var <- profvis::profvis(fibonacciIndexLA(1e3))
 saveWidget(var, "var.html")

@@ -37,19 +37,20 @@ fibonacciIndex <- function(digitLimit){
     return(index + 1)
 }
 
+library(Rmpfr)
 # Using linear algebra
 fibonacciIndexLA <- function(digitLimit){
     T <- matrix(c(0, 1, 1, 1), 2, 2, byrow = TRUE)
     ev <- eigen(T)
-    ev$values <- as.bigq(ev$values)
     vec <- c(1, 1)
     V <- ev$vectors
 
     limit <- as.bigz(10)**(digitLimit - 1)
-    index <- floor((digitLimit - 1)/log10(max(ev$values)))
+    index <- floor((digitLimit - 2)/log10(max(ev$values)))
+    ev$values <- as.bigq(ev$values)
     L <- as.bigq(diag(c(1, 1)))
-    L[1] <- ev$values[1] ** index
-    L[4] <- ev$values[2] ** index
+    L[1] <- ev$values[1]** index
+    L[4] <- ev$values[2]** index
     T <-  V %*% L %*% t(V)
     values <- T %*% vec
     while(values[2] < limit){
