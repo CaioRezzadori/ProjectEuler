@@ -1,19 +1,19 @@
-decimalDivision <- function(num, denom){
-    remainder <- num %% denom
-    quotients <- c(remainder)
-    remainder <- remainder * 10
-    while(!(remainder %% denom) %in% quotients){
-        remainder <- remainder %% denom
-        quotients <- c(quotients, remainder)
-        remainder <- remainder * 10
+decimalDivisionRemainders <- function(num, denom){
+    r <- num %% denom
+    remainders <- c(r)
+    r <- r * 10
+    while(!(r %% denom) %in% remainders){
+        r <- r %% denom
+        remainders <- c(remainders, r)
+        r <- r * 10
     }
-    quotients <- c(quotients, remainder %% denom)
-    return(quotients)
+    remainders <- c(remainders, r %% denom)
+    return(remainders)
 }
 
 getCycleLength <- function(num, denom){
-    quotients <- decimalDivision(num, denom)
-    cycleIndex <- which(quotients == tail(quotients, 1))
+    remainders <- decimalDivisionRemainders(num, denom)
+    cycleIndex <- which(remainders == tail(remainders, 1))
     return(cycleIndex[2] - cycleIndex[1])
 }
 
