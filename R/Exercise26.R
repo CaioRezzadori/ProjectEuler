@@ -28,4 +28,22 @@ longestCycle <- function(limit){
     return(d_max)
 }
 
-longestCycle(1e3)
+longestCycle <- function(limit){
+    d <- d_max <- limit
+    maxCycle <- getCycleLength(1, denom = d_max)
+    while(d >= 1){
+        d <- d - 1
+        cycle <- getCycleLength(1, denom = d)
+        if(cycle > maxCycle){
+            d_max <- d
+            maxCycle <- getCycleLength(1, denom = d_max)
+        }
+        if(d < maxCycle){
+            break
+        }
+
+    }
+    return(d_max)
+}
+
+longestCycle(1e4)
