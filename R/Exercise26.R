@@ -18,17 +18,6 @@ getCycleLength <- function(num, denom){
 }
 
 longestCycle <- function(limit){
-    d <- d_max <- 3
-    while(d < limit){
-        d <- d + 1
-        if(getCycleLength(1, denom = d) > getCycleLength(1, denom = d_max)){
-            d_max <- d
-        }
-    }
-    return(d_max)
-}
-
-longestCycle <- function(limit){
     d <- d_max <- limit
     maxCycle <- getCycleLength(1, denom = d_max)
     while(d >= 1){
@@ -45,5 +34,19 @@ longestCycle <- function(limit){
     }
     return(d_max)
 }
+
+
+### Old solution #### 
+# longestCycle <- function(limit){
+#     d <- d_max <- 3
+#     while(d < limit){
+#         d <- d + 1
+#         if(getCycleLength(1, denom = d) > getCycleLength(1, denom = d_max)){
+#             d_max <- d
+#         }
+#     }
+#     return(d_max)
+# }
+
 
 longestCycle(1e4)
