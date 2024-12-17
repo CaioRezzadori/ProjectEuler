@@ -3,6 +3,11 @@
 % \author{Caio Assumpção Rezzadori}
 \date{}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
 \begin{document}
 \maketitle
 The Fibonacci Sequence is given by $f_n = f_{n - 1} + f_{n - 2}$
@@ -13,7 +18,15 @@ If we define the linear transformation above
     \begin{bmatrix}
         0 & 1\\
         1 & 1
-    \end{bmatrix} \Rightarrow
+    \end{bmatrix}
+\end{equation*}
+
+We notice that, if we apply it to the vector $\begin{bmatrix}
+    f_{n - 2} \\
+        f_{n - 1}
+\end{bmatrix}$, we have
+\begin{equation*}
+    \Rightarrow
     T \begin{bmatrix}
         f_{n - 2} \\
         f_{n - 1}
@@ -27,19 +40,163 @@ If we define the linear transformation above
         f_{n}
     \end{bmatrix}
 \end{equation*}
-Then, if we want the $n$'th term of the sequence, we just have to compute:
+
+Starting with the vector $v_0 = \begin{bmatrix}
+    f_{0} \\
+        f_{1}
+\end{bmatrix}$ = $\begin{bmatrix}
+    1 \\
+    1
+\end{bmatrix}$, and successively applying the transformation to the new result,
+we have:
+
 \begin{equation*}
-    T^n\begin{bmatrix}
+    \begin{aligned}
+    Tv_0 = T\begin{bmatrix}
         1 \\
         1
     \end{bmatrix} = \begin{bmatrix}
-        f_{n - 1}\\
-        f_n
-    \end{bmatrix}
+        1\\
+        2
+    \end{bmatrix}=\begin{bmatrix}
+        f_1\\
+        f_2
+    \end{bmatrix} = v_1\\
+    \Rightarrow
+    Tv_1 = T(Tv_0) = T^2 v_0 =\begin{bmatrix}
+        2\\
+        3
+    \end{bmatrix} = \begin{bmatrix}
+        f_2\\
+        f_3
+    \end{bmatrix}  = v_2 \\
+    \Rightarrow
+    Tv_2 = T(T^2 v_0) = T^3 v_0 =\begin{bmatrix}
+        3\\
+        5
+    \end{bmatrix} = \begin{bmatrix}
+        f_3\\
+        f_4
+    \end{bmatrix}  = v_3
+    \end{aligned}
 \end{equation*}
 
-By the Spectral Theorem, since $T$ is a symmetric matrix, we can decompose on
-it's eigenvalues and eigenvectors:
+If we continue the iterations, it's easy to notice that the pattern holds.\\
+Then, we have $T^n v_0 = v_n = \begin{bmatrix}
+    f_n\\
+    f_{n + 1}
+\end{bmatrix}$. This relation means that one way to calculate the $n$'th term
+of the Fibonacci Sequence is computing $T^{n - 1}$ and apply to $v_0$.
+
+Since multiplication of matrices is a operation with high computational cost,
+we want to find a way to compute $T^n$ with more efficiency.
+
+Let's calculate the eigenvalues of $T$, i.e, the scalars
+$\lambda \in \mathbb{C}$ and $v \in \mathbb{R}^2$ such that:
+    \begin{equation}
+        Tv = \lambda v
+    \end{equation}
+\begin{equation*}
+    \begin{aligned}
+        \Rightarrow Tx - \lambda v = 0\\
+        \Rightarrow (T - \lambda I)v = 0
+    \end{aligned}
+\end{equation*}
+
+
+Since we want non trivial solutions, we want that the matrix $T - \lambda I$ be
+singular (not invertible). Then:
+\begin{equation*}
+    \begin{aligned}
+    \det(T - \lambda I) = 0\\
+    \det(\begin{bmatrix}
+        0 & 1 \\
+        1 & 1
+    \end{bmatrix} - \begin{bmatrix}
+        \lambda & 0\\
+        0 & \lambda
+    \end{bmatrix})\\
+    =\det(\begin{bmatrix}
+        -\lambda & 1\\
+        1 & 1 - \lambda
+    \end{bmatrix})\\
+    = \lambda^2 - \lambda - 1 = 0
+    \end{aligned}
+\end{equation*}
+
+Then, the eigenvalues of $T$ are $\lambda_1 = \dfrac{1 + \sqrt{5}}{2}$ and
+$\lambda_2 = \dfrac{1 - \sqrt{5}}{2}$. Since the eigenvalues are distinct, the
+eigenvectors $v_1, v_2$ associated are linearly independent.
+
+Let $V = [v_1 , v_2]$ the matrix where the eigenvectors are the columns and $\Lambda = \begin{bmatrix}
+    \lambda_1 & \\
+    & \lambda_2
+\end{bmatrix}$ the diagonal matrix of eigenvalues.
+
+We can write the equation $(1)$ as:
+\begin{equation*}
+    \begin{aligned}
+        TV = V\Lambda\\
+        \Rightarrow T = V \Lambda V^{-1}
+    \end{aligned}
+\end{equation*}
+
+since $V$ is invertible (linearly independent eigenvectors).
+
+Notice now, that if we want to calculate powers of $T$, we have:
+
+\begin{equation*}
+    \begin{aligned}
+        T^2 = (V\Lambda V^{-1})(V\Lambda V^{-1})\\
+        = V\Lambda (VV^{-1})\Lambda V^{-1}\\
+        = V \Lambda I \Lambda V^{-1} \\
+        =V \Lambda^2 V^{-1}
+    \end{aligned}
+\end{equation*}
+
+This means, that if we want to compute $T^n$, we just have to compute \\
+$\Lambda ^n = \begin{bmatrix}
+    \lambda_1 ^n & \\
+    & \lambda_2 ^n
+\end{bmatrix}$.
+
+This means that the $n$'th term of the Fibonacci Sequence is given by
+\begin{equation*}
+    \begin{bmatrix}
+        f_{n - 1}\\
+        f_n
+    \end{bmatrix} = V \begin{bmatrix}
+        \lambda_1 ^{n - 1} & \\
+    & \lambda_2 ^{n - 1}
+    \end{bmatrix}V^{-1}
+\end{equation*}
+
+One heuristic to find the first element of the Fibonacci sequence with 1000
+digits is using its greatest eigenvalue.
+
+Since the eigenvectors can be normalized,
+i.e, $||v_1|| = ||v_2|| = 1$, the value of $f_n$ is going to be most influenced
+by $lambda_1^{n - 1}$.
+\newpage
+One way to estimate this first value, is calculating the which
+$n \in \mathbb{N}$ most approximate the relation
+$\lambda_1 ^{n - 1} = 10^{1000}$. Let's calculate $n$:
+\begin{equation*}
+    \begin{aligned}
+        \lambda_1 ^{n - 1} \approx 10^{1000}\\
+        \Rightarrow \log_{10}(\lambda_1 ^{n - 1}) \approx
+                                            \log_{10}(10^{1000})\\
+        \Rightarrow (n - 1) \log_{10}(\lambda_1)
+                                    \approx 1000\\
+        \Rightarrow n = \floor*{\dfrac{1000}{\log_{10}(\lambda_1)} + 1}
+    \end{aligned}
+\end{equation*}
+
+% By the \textbf{Spectral Theorem}, since $T$ is a symmetric matrix, we can
+% write it as $T = V \Lambda V^{-1}$, where $\Lambda$ is the diagonal matrix of its
+% eigenvalues and $V$ the matrix of its eigenvectors.
+
+
 
 
 \end{document}

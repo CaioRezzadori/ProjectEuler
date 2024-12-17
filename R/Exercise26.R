@@ -35,8 +35,9 @@ longestCycle <- function(limit){
     return(d_max)
 }
 
+longestCycle(1e4)
 
-### Old solution #### 
+### Old solution ####
 # longestCycle <- function(limit){
 #     d <- d_max <- 3
 #     while(d < limit){
@@ -47,6 +48,3 @@ longestCycle <- function(limit){
 #     }
 #     return(d_max)
 # }
-
-
-longestCycle(1e4)
