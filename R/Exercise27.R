@@ -2,8 +2,14 @@ isPrime <- function(number){
     if(number <= 1){
         return(FALSE)
     }
-    i <- 2
-    while(i < number){
+    if(number == 2){
+        return(TRUE)
+    }
+    if(number %% 2 == 0){
+        return(FALSE)
+    }
+    i <- 3
+    while(i < sqrt(number)){
         if(number %% i == 0){
             return(FALSE)
         }
@@ -40,7 +46,7 @@ maxPrimes <- function(aMax, bMax){
     for(a in aOptions){
         for(b in bOptions){
             m <- 0
-            while(isPrime(quadraticForm(a, b, m)) &){
+            while(isPrime(quadraticForm(a, b, m))){
                 m <- m + 1
             }
             if(m > mMax){
