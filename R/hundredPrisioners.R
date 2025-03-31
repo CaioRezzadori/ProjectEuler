@@ -1,18 +1,17 @@
-randomVector <- function(size, seed = NULL){
-    if(!is.null(seed)){
-        set.seed(seed)
-    }
-    return(sample(1:size))
-}
+randomMethod <- function(size = 100,
+                         nTrials = 50,
+                         drawerSeed = NULL,
+                         prisionersSeed = NULL){
 
-randomMethod <- function(drawerSeed = NULL, prisionersSeed = NULL){
-    drawers <- randomVector(100, seed = drawerSeed)
+    set.seed(drawerSeed)
+    drawers <- sample(1:size)
+
     prisionerNumber <- 1
     nPrisionersApart <- 0
 
-    while(prisionerNumber <= 100){
-        prisionerChoices <- randomVector(100,
-                                seed = prisionersSeed[prisionerNumber])[1:50]
+    while(prisionerNumber <= size){
+        set.seed(prisionersSeed[prisionerNumber])
+        prisionerChoices <- sample(1:size, nTrials , replace = FALSE)
 
         if(prisionerNumber %in% drawers[prisionerChoices]){
             nPrisionersApart <- nPrisionersApart + 1
@@ -23,16 +22,21 @@ randomMethod <- function(drawerSeed = NULL, prisionersSeed = NULL){
     return(nPrisionersApart)
 }
 
-optimalMethod <- function(drawerSeed = NULL,
+optimalMethod <- function(size = 100,
+                          nTrials = 50,
+                          drawerSeed = NULL,
                           prisionersSeed = NULL){
 
-    drawers <- randomVector(100, seed = drawerSeed)
+    set.seed(drawerSeed)
+    drawers <- sample(1:size)
+
     prisionerNumber <- 1
     nPrisionersApart <- 0
-    while(prisionerNumber <= 100){
+
+    while(prisionerNumber <= size){
         currentDrawer <- drawers[prisionerNumber]
         j <- 1
-        while(j <= 50){
+        while(j <= nTrials){
             if(drawers[currentDrawer] == prisionerNumber){
                 nPrisionersApart <- nPrisionersApart + 1
                 break
@@ -47,58 +51,69 @@ optimalMethod <- function(drawerSeed = NULL,
 
 repeatExperiment <- function(experiment,
                              nExperiments,
-                             drawerSeed = NULL,
-                             prisionersSeed = NULL){
+                             size = 100,
+                             nTrials = 50,
+                             experimentSeed = NULL){
+    # Generating seeds (reproducible experiments)
+    if(!is.null(experimentSeed)){
+        set.seed(experimentSeed)
+        drawerSeed <- runif(nExperiments, min = 1, max = 99999)
+        prisionersSeed <- matrix(runif(nExperiments*size,
+                                            min = 1,
+                                            max = 99999),
+                                    nrow = nExperiments,
+                                    ncol = size)
+    } else{
+        drawerSeed <- prisionersSeed <- NULL
+    }
     i <- 1
     result <- integer(nExperiments)
     while(i <= nExperiments){
-        result[i] <- match.fun(experiment)(drawerSeed = drawerSeed[i],
-                                           prisionersSeed = prisionersSeed[i,])
+        result[i] <- match.fun(experiment)(size = size,
+                                        nTrials = nTrials,
+                                        drawerSeed = drawerSeed[i],
+                                        prisionersSeed = prisionersSeed[i,])
+
         i <- i + 1
     }
     return(result)
 }
 
-probabilityCalc <- function(result){
-    successExperiments <- result[result == 100]
+probabilityCalc <- function(result, size = 100){
+    successExperiments <- result[result == size]
     probSuccess <- length(successExperiments)/length(result)
     return(probSuccess)
 }
 
 
-optimalMethod()
-
-nExperiments <- 5000
-
-set.seed(2025)
-drawerSeed2 <- runif(nExperiments, min = 1, max = 100)
-prisionersSeed2 <- round(matrix(runif(nExperiments*100,
-                                     min = 1,
-                                     max = 1000),
-                               nrow = nExperiments,
-                               ncol = 100))
-
+### RUNING EXPERIMENTS ###
+##############################################################
+nExperiments <- 1e5
+# start.time <- Sys.time()
 resultRandomMethod <- repeatExperiment(experiment = "randomMethod",
                                        nExperiments = nExperiments,
-                                       drawerSeed = drawerSeed,
-                                       prisionersSeed = prisionersSeed)
+                                       experimentSeed = 2025,
+                                       size = 100,
+                                       nTrials = 50)
+# end.time <- Sys.time()
+# diff.time <- end.time - start.time
+probabilityCalc(resultRandomMethod, size = 100)
 
 mean(resultRandomMethod)
-probabilityCalc(resultRandomMethod)
 
-
-
+###############################################################
+nExperiments <- 1e5
 resultOptimalMethod <- repeatExperiment(experiment = "optimalMethod",
                                        nExperiments = nExperiments,
-                                       drawerSeed = drawerSeed,
-                                       prisionersSeed = prisionersSeed)
+                                       experimentSeed = 2025,
+                                       size = 100,
+                                       nTrials = 50)
+
+probabilityCalc(resultOptimalMethod, size = 100)
+
 mean(resultOptimalMethod)
 
-probabilityCalc(resultOptimalMethod)
-# mean(resultRandomMethod)
 
+# start.time <- Sys.time()
 
-
-
-
-
+# print(diff.time)
