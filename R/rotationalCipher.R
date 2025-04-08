@@ -1,6 +1,6 @@
 ROT <- function(key, sentence){
     Letters <- c(letters, LETTERS)
-    arraySentence <- strsplit(sentence, "")[[1]]
+    arraySentence <- unlist(strsplit(sentence, ""))
     mask <- arraySentence %in% Letters
     index <- sapply(arraySentence[mask], function(x) which(x == Letters), USE.NAMES = FALSE)
 
