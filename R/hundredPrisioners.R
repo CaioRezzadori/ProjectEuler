@@ -5,7 +5,6 @@ randomMethod <- function(size = 100,
 
     set.seed(drawerSeed)
     drawers <- sample(1:size)
-
     prisionerNumber <- 1
     nPrisionersApart <- 0
 
@@ -29,12 +28,10 @@ optimalMethod <- function(size = 100,
 
     set.seed(drawerSeed)
     drawers <- sample(1:size)
-
     prisionerNumber <- 1
     nPrisionersApart <- 0
-
     while(prisionerNumber <= size){
-        currentDrawer <- drawers[prisionerNumber]
+        currentDrawer <- prisionerNumber
         j <- 1
         while(j <= nTrials){
             if(drawers[currentDrawer] == prisionerNumber){
@@ -112,8 +109,3 @@ resultOptimalMethod <- repeatExperiment(experiment = "optimalMethod",
 probabilityCalc(resultOptimalMethod, size = 100)
 
 mean(resultOptimalMethod)
-
-
-# start.time <- Sys.time()
-
-# print(diff.time)
