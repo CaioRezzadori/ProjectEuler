@@ -9,7 +9,7 @@ isPrime <- function(number){
         return(FALSE)
     }
     i <- 3
-    while(i < sqrt(number)){
+    while(i < sqrt(number) + 1){
         if(number %% i == 0){
             return(FALSE)
         }
