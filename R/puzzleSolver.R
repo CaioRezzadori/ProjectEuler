@@ -54,38 +54,39 @@ manhattanDistance <- function(chart, solvedChart){
     rowsDistance <- abs(chartRows - solvedChartRows)
     colsDistance <-  abs(chartCols - solvedChartCols)
     return(sum(rowsDistance + colsDistance))
-    # return(list(chartRows = chartRows,
-    #             chartCols = chartCols,
-    #             solvedChartRows = solvedChartRows,
-    #             solvedChartCols = solvedChartCols))
 }
 
-puzzleSolver <- function(chart, solvedChart, stopParam){
+puzzleSolverOptimization <- function(chart, solvedChart, stopParam){
     moveTrack <- possibleMoves(list(x = chart), "x")
     distances <- unlist(lapply(moveTrack[names(moveTrack) != "x"],
                                manhattanDistance,
                                solvedChart))
-    i <- 1
+    distances <- sort(distances)
     visitedTracks <- c("x")
-    while(!any(0 %in% distances)){ # i < stopParam){
-        chartIndex <- names(which(distances == min(distances))[1])
-        visitedTracks <- c(visitedTracks, chartIndex)
-        tracksNames <- names(moveTrack)
-        moveTrack <- possibleMoves(moveTrack, chartIndex)
-        # distances <- c(distances, lapply(moveTrack,
-        #                                  manhattanDistance,
-        #                                  solvedChart)) # Option 1
-        # browser()
+    while(!any(0 %in% distances)){
+
+        # if(length(names(distances)) <= 1000){
+        #     for(chartIndex in names(distances)){
+        #         moveTrack <- possibleMoves(moveTrack, chartIndex)
+        #     }
+        #     visitedTracks <- c(visitedTracks, names(distances))
+        # }
+        # else{
+            chartIndex <- names(which(distances == min(distances))[1])
+            visitedTracks <- c(visitedTracks, chartIndex)
+            tracksNames <- names(moveTrack)
+            moveTrack <- possibleMoves(moveTrack, chartIndex)
+        # }
+        # distances <- integer(length(moveTrack))
+        # names(distances) <- names(moveTrack)
+        # for(i in setdiff(names(moveTrack), visitedTracks)){
+        #     distances[i] <- manhattanDistance(moveTrack[[i]], solvedChart)
+        # }
         distances <- lapply(moveTrack,
                             manhattanDistance,
                             solvedChart)
         distances <- distances[!(names(distances) %in% visitedTracks)]
         distances <- unlist(distances)
-        # distances <- distances[-chartIndex]
-        # distances <- lapply(manhattanDistance,
-        #                     moveTrack,
-        #                     solvedChart) # Option 2
-        i <- i + 1
         print(chartIndex)
         print(moveTrack[[chartIndex]])
     }
@@ -95,6 +96,54 @@ puzzleSolver <- function(chart, solvedChart, stopParam){
     # return(which(distances == 0))
     return(moveTrack)
 }
+
+
+puzzleChart <- matrix(c(15, 14, 1, 6,
+                        9, 11, 4, 12,
+                        0, 10, 7, 3,
+                        13, 8, 5, 2), nrow = 4, ncol = 4, byrow = TRUE)
+
+solvedChart <- matrix(1:16, nrow = 4, ncol = 4, byrow = TRUE)
+solvedChart[16] <- 0
+
+result <- puzzleSolverOptimization(puzzleChart, solvedChart, stopParam = 100)
+
+
+
+puzzleSolver <- function(chart, solvedChart, stopParam){
+    moveTrack <- possibleMoves(list(x = chart), "x")
+    distances <- unlist(lapply(moveTrack[names(moveTrack) != "x"],
+                               manhattanDistance,
+                               solvedChart))
+    visitedTracks <- c("x")
+    while(!any(0 %in% distances)){
+        browser()
+        chartIndex <- names(which(distances == min(distances))[1])
+        visitedTracks <- c(visitedTracks, chartIndex)
+        tracksNames <- names(moveTrack)
+        moveTrack <- possibleMoves(moveTrack, chartIndex)
+
+        distances <- integer(length(moveTrack))
+        names(distances) <- names(moveTrack)
+        for(i in setdiff(names(moveTrack), visitedTracks)){
+            distances[i] <- manhattanDistance(moveTrack[[i]], solvedChart)
+        }
+        # distances <- lapply(moveTrack,
+        #                     manhattanDistance,
+        #                     solvedChart)
+        # distances <- distances[!(names(distances) %in% visitedTracks)]
+        # distances <- unlist(distances)
+
+        print(chartIndex)
+        print(moveTrack[[chartIndex]])
+    }
+
+    print(which(distances == 0))
+
+    # return(which(distances == 0))
+    return(moveTrack)
+}
+
 
 puzzleChart <- matrix(c(15, 14, 1, 6,
                         9, 11, 4, 12,
@@ -107,6 +156,15 @@ solvedChart[16] <- 0
 result <- puzzleSolver(puzzleChart, solvedChart, stopParam = 100)
 
 
+moves<- unlist(strsplit("uurrddruuldddluulurrddlurrddluldrurdllurdruuulldrurdlldluurddlurrrddlluluurddlurulddrrrulddruulldrrdlluurdldrr",
+        ""))
+
+testPuzzle <- puzzleChart
+for(i in moves){
+    print(testPuzzle)
+    print(i)
+    testPuzzle <- moveNumber(testPuzzle, i)
+}
 
 ####################################################################
 
