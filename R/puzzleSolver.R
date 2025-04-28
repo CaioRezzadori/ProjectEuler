@@ -64,32 +64,27 @@ manhattanDistance <- function(chart, solvedChart){
 puzzleSolver <- function(chart, solvedChart){
     moveTrack <- possibleMoves(list(x = chart), "x")[-1]
     visitedPaths <- c("x")
-
     distances <- sapply(moveTrack,
                         manhattanDistance,
                         solvedChart)
 
     while(!any(0 == distances)){
-        newPath <- names(which(distances == min(distances))[1])
-        visitedPaths <- c(visitedPaths, newPath)
-        moveTrack <- possibleMoves(moveTrack, newPath)
+        nextPath <- names(which(distances == min(distances))[1])
+        visitedPaths <- c(visitedPaths, nextPath)
+        moveTrack <- possibleMoves(moveTrack, nextPath)
 
         newPaths <- moveTrack[setdiff(names(moveTrack), visitedPaths)]
         distances <- sapply(newPaths,
                             manhattanDistance,
                             solvedChart)
 
-        print(newPath)
-        print(moveTrack[[newPath]])
+        print(nextPath)
+        print(moveTrack[[nextPath]])
     }
-
-    print(which(distances == 0))
-
-    # return(which(distances == 0))
-    return(moveTrack)
+    return(names(which(distances == 0)))
 }
 
-
+# Input
 puzzleChart <- matrix(c(15, 14, 1, 6,
                         9, 11, 4, 12,
                         0, 10, 7, 3,
@@ -98,19 +93,71 @@ puzzleChart <- matrix(c(15, 14, 1, 6,
 solvedChart <- matrix(1:16, nrow = 4, ncol = 4, byrow = TRUE)
 solvedChart[16] <- 0
 
+# Output
 time <- Sys.time()
 result <- puzzleSolver(puzzleChart, solvedChart)
 time <- Sys.time() - time
 
-moves<- unlist(strsplit("uurrddruuldddluulurrddlurrddluldrurdllurdruuulldrurdlldluurddlurrrddlluluurddlurulddrrrulddruulldrrdlluurdldrr",
-        ""))
 
-testPuzzle <- puzzleChart
+# Checking solution
+moves <- unlist(strsplit(names(result), ""))[-1]
+
+solvingPuzzle <- puzzleChart
 for(i in moves){
-    print(testPuzzle)
     print(i)
-    testPuzzle <- moveNumber(testPuzzle, i)
+    solvingPuzzle <- moveNumber(solvingPuzzle, i)
+    print(solvingPuzzle)
 }
+
+
+
+
+# Input 2
+puzzleChart2 <- matrix(c(5,1,7,3,
+                        9,2,11,4,
+                        13,6,15,8,
+                        0,10,14,12), nrow = 4, ncol = 4, byrow = TRUE)
+
+solvedChart <- matrix(1:16, nrow = 4, ncol = 4, byrow = TRUE)
+solvedChart[16] <- 0
+
+# Output
+time <- Sys.time()
+result2 <- puzzleSolver(puzzleChart2, solvedChart)
+time <- Sys.time() - time
+
+# Checking solution
+moves2 <- unlist(strsplit(names(result2), ""))[-1]
+
+solvingPuzzle2 <- puzzleChart2
+for(i in moves2){
+    print(i)
+    solvingPuzzle2 <- moveNumber(solvingPuzzle2, i)
+    print(solvingPuzzle2)
+}
+
+length(moves2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ####################################################################
 

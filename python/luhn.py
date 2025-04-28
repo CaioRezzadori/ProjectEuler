@@ -11,7 +11,6 @@ def luhnCheck(number):
     return(sum(otherDigits) + sum(secondDigits))
 
 import numpy as np
-
 def luhnCheckNp(number):
     if(len(number) <= 1): return(False)
 
@@ -23,11 +22,10 @@ def luhnCheckNp(number):
 
     return(sum(digits).tolist())
 
+print([luhnCheck(x) for x in ["4539 3195 0343 6467",
+                                        "8273 1232 7352 0569"]])
 
-luhnCheck("4539 3195 0343 6467")   # % 10 == 0
-luhnCheckNp("4539 3195 0343 6467") # % 10 == 0
-
-luhnCheck("8273 1232 7352 0569")   # % 10 == 0
-luhnCheckNp("8273 1232 7352 0569") # % 10 == 0
-
+print("With numpy:")
+print([luhnCheckNp(x) % 10 == 0  for x in ["4539 3195 0343 6467",
+                                           "8273 1232 7352 0569"]])
 
