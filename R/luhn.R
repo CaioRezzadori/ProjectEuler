@@ -1,7 +1,7 @@
-luhnCheck <- function(n){
-    if(nchar(n) <= 1) return(FALSE)
+luhnCheck <- function(number){
+    if(nchar(number) <= 1) return(FALSE)
 
-    digits <- unlist(strsplit(gsub(" ", "", n), ""))
+    digits <- unlist(strsplit(gsub(" ", "", number), ""))
     digits <- as.numeric(digits)
     indexSelect <- (0:(floor(length(digits) / 2)))*2 + 1
     indexSelect <- indexSelect[indexSelect <= length(digits)]
@@ -11,6 +11,6 @@ luhnCheck <- function(n){
     return(sum(digits))
 }
 
-luhnCheck("4539 3195 0343 6467") %% 10 == 0
+luhnCheck("4539 3195 0343 6467") # %% 10 == 0
 
-luhnCheck("8273 1232 7352 0569") %% 10 == 0
+luhnCheck("8273 1232 7352 0569") # %% 10 == 0

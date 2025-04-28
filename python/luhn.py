@@ -1,20 +1,33 @@
-def luhnCheck(n):
-    if(len(n) <= 1): return(False)
-    n = n.replace(" ", "") # Removing spaces
-    digits = [int(x) for x in n]
-    indexSelect = list(range(0, len(digits), 2))
+def luhnCheck(number):
+    if(len(number) <= 1): return(False)
 
-    digits = [x*2 if x.index % 2 == 0 else x for x in digits ]
-    digits = [x - 9 if x > 9 else xfor x in digits if x > 9]
-    print(digits)
-    return(sum(digits))
+    number = number.replace(" ", "") # Removing spaces
+    digits = [int(x) for x in number]
 
-teste = [1,2, 3, 4]
-teste[0:len(teste):2] = teste[0:len(teste):2]*
+    secondDigits = digits[0:(len(digits) + 1):2]
+    otherDigits = digits[1:len(digits):2]
 
-luhnCheck("4539 3195 0343 6467")
+    secondDigits = [x*2 - 9 if x > 4 else x*2 for x in secondDigits]
+    return(sum(otherDigits) + sum(secondDigits))
 
-teste = "4539 3195 0343 6467"
-list[teste.replace(" ", "")]
+import numpy as np
+
+def luhnCheckNp(number):
+    if(len(number) <= 1): return(False)
+
+    number = number.replace(" ", "") # Removing spaces
+    digits = np.array([int(x) for x in number])
+
+    digits[0:(len(digits) + 1):2] *= 2
+    digits[digits > 9] += - 9
+
+    return(sum(digits).tolist())
+
+
+luhnCheck("4539 3195 0343 6467")   # % 10 == 0
+luhnCheckNp("4539 3195 0343 6467") # % 10 == 0
+
+luhnCheck("8273 1232 7352 0569")   # % 10 == 0
+luhnCheckNp("8273 1232 7352 0569") # % 10 == 0
 
 
