@@ -13,3 +13,8 @@ var.html
 *.fls
 *.log
 *.synctex.gz
+.trunk/trunk.yaml
+.trunk/configs/.isort.cfg
+.trunk/configs/.markdownlint.yaml
+.trunk/configs/.yamllint.yaml
+.trunk/configs/ruff.toml

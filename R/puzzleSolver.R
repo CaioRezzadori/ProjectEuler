@@ -67,13 +67,13 @@ puzzleSolver <- function(chart, solvedChart){
     distances <- sapply(moveTrack,
                         manhattanDistance,
                         solvedChart)
-
-    while(!any(0 == distances)){
+    while(!any(0 == distances)){ #length(which(distances == 0)) == 0){ #
         nextPath <- names(which(distances == min(distances))[1])
         visitedPaths <- c(visitedPaths, nextPath)
         moveTrack <- possibleMoves(moveTrack, nextPath)
 
         newPaths <- moveTrack[setdiff(names(moveTrack), visitedPaths)]
+        # newPaths <- newPaths[nchar(names(newPaths)) < 111]
         distances <- sapply(newPaths,
                             manhattanDistance,
                             solvedChart)
