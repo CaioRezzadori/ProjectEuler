@@ -20,19 +20,16 @@ def maximumThrillNp(atms):
 
 atms =  [3,1,3]
 maximumThrill(atms)
+maximumThrillNp(atms)
 
 atms = [2,3,4,5]
 maximumThrill(atms)
+maximumThrillNp(atms)
 
 atms = [10, 10, 11, 13, 7, 8, 9]
 maximumThrill(atms)
+maximumThrillNp(atms)
 
 atms = [2, 3, 4, 5, 10, 6, 7, 8, 9, 10, 11, 12, 4, 4, 2, 2, 12, 8]
 maximumThrill(atms)
-
-
-
-l = len(atms)
-aux = list(range(0, l))
-for i in range(0, l):
-    print([abs(x - i) for x in aux])
+maximumThrillNp(atms)
