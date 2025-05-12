@@ -1,7 +1,6 @@
 def swap(vec, a, b):
     swappedVec = vec.copy()
-    swappedVec[a] = vec[b]
-    swappedVec[b] = vec[a]
+    swappedVec[a], swappedVec[b] = vec[b], vec[a]
     return(swappedVec)
 
 import numpy as np
@@ -36,73 +35,99 @@ def possibleMoves(chartDict, moveIndex):
     return(chartDict)
 
 def manhattanDistance(chart, solvedChart):
-    if(chart.shape != solvedChart.shape):
-        return(-1) # Dimension error
+    if chart.shape != solvedChart.shape:
+        return -1  # Dimension error
 
-    distances = [0]*chart.size
-    for i in solvedChart.flatten():
-        indexChart = np.argwhere(chart == i)[0]
-        indexSolvedChart = np.argwhere(solvedChart == i)[0]
-        distances[i] = sum(abs(indexChart - indexSolvedChart))
-    return(sum(distances[1:]))
+    nRows, nCol = chart.shape
+    size = chart.size
+
+    chartPos = np.array([np.where(chart.flatten() == i)[0] for i in range(1, size)])
+    solvedChartPos = np.array([np.where(solvedChart ==  i)[0] for i in range(1, size)])
+    breakpoint()
+
+    chartRows = chartPos % nRows
+    chartCols = chartPos // nCol
+    solvedChartRows = solvedChartPos % nRows
+    solvedChartCols = solvedChartPos // nCol
+    rowsDistance = abs(chartRows - solvedChartRows)
+    colsDistance =  abs(chartCols - solvedChartCols)
+    return(sum(rowsDistance + colsDistance))
 
 def puzzleSolver(chart, solvedChart):
     moveTrack = possibleMoves({"x": chart},"x")
+    moveTrack.pop("x")
     visitedPaths = ["x"]
-    distances = {x: manhattanDistance(y, solvedChart) for x, y in moveTrack.items()}
-    while(not any(0 == distances)):
-        nextPath = names(which(distances == min(distances))[1]) ###
-
-        visitedPaths = visitedPaths.append(nextPath)
+    distances = {k: manhattanDistance(v, solvedChart) for \
+                    k, v in moveTrack.items()}
+    while(0 not in distances.values()):
+        # breakpoint()
+        nextPath = min(distances, key = distances.get)
+        visitedPaths.append(nextPath)
         moveTrack = possibleMoves(moveTrack, nextPath)
 
-        newPaths <- moveTrack[setdiff(names(moveTrack), visitedPaths)]
-        # newPaths <- newPaths[nchar(names(newPaths)) < 111]
+        newPaths = {k: v for k, v in moveTrack.items() if k not in visitedPaths}
+
         distances = {x: manhattanDistance(y, solvedChart) for x, y in newPaths.items()} #
 
         print(nextPath)
         print(moveTrack[nextPath])
-    return(distances.values() == 0) ####
+    return(min(distances, key = distances.get)) ####
 
-puzzleChart2 = np.array([[15, 11, 1, 6],
-                        [0, 14, 4, 12],
-                        [9, 10, 7, 3],
+puzzleChart = np.array([[15, 14, 1, 6],
+                        [9, 11, 4, 12],
+                        [0, 10, 7, 3],
                         [13, 8, 5, 2]])
 
-manhattanDistance(puzzleChart, puzzleChart2)
+solvedPuzzle = np.array(range(1, 17)).reshape(4, 4)
+solvedPuzzle[-1,-1] = 0
+puzzleSolver(puzzleChart, solvedPuzzle)
 
-np.argwhere(puzzleChart == 0)
+"xuurrddruuldddluulurrddlurrddluldrurdllurdruuulldrurdlldluurddlurrrddlluluurddlurulddrrrulddruulldrrdlluurdldr"
+"xuurrddruuldddluulurrddlurrddluldrurdllurdruuulldrurdlldluurddlurrrddlluluurddlurulddrrrulddruulldrrdlluurdldr"
+possibleMoves({"x": puzzleChart})
 
-solvedChart = np.array(range(15, -1, -1)).reshape(4, 4)
-
-
-puzzleChart = np.array([[14, 6, 1, 2],
-                        [9, 11, 4, 12],
-                        [15, 0, 7, 3],
-                        [13, 8, 5, 10]])
-
-np.argwhere(puzzleChart == 0)
+sum(abs(np.array(aux)))
 
 
-teste = {"a": 0, "b": 1, "c": 2}
+manhattanDistance(solvedChart=solvedPuzzle, chart=puzzleChart)
 
-[sum(np.where(puzzleChart == x)) for x in solvedChart.flatten()]
-np.where(puzzleChart == list())
 
-np.argwhere(puzzleChart == solvedChart)
-moveNumber(puzzleChart, "u")
-teste = swap(puzzleChart, (0, 0), (1, 1))
 
-chartD = {"x": puzzleChart}
-[np.array_equal(teste, x) for x in chartD.values()]
-print(possibleMoves({"x": puzzleChart}, "x"))
 
-nRow = puzzleChart.shape[0]
-moveList = {"l": -nRow, "r": nRow, "u": -1, "d" :-1}
-teste = (1,1)
-teste[1]
+manhattanDistance(puzzleChart, solvedPuzzle)
 
-any(np.array(list(np.where(puzzleChart == 0))) < 0)
+# np.argwhere(puzzleChart == 0)
+
+# solvedChart = np.array(range(15, -1, -1)).reshape(4, 4)
+
+
+# puzzleChart = np.array([[14, 6, 1, 2],
+#                         [9, 11, 4, 12],
+#                         [15, 0, 7, 3],
+#                         [13, 8, 5, 10]])
+
+# np.argwhere(puzzleChart == 0)
+
+
+# teste = {"a": 0, "b": 1, "c": 2}
+
+# [sum(np.where(puzzleChart == x)) for x in solvedChart.flatten()]
+# np.where(puzzleChart == list())
+
+# np.argwhere(puzzleChart == solvedChart)
+# moveNumber(puzzleChart, "u")
+# teste = swap(puzzleChart, (0, 0), (1, 1))
+
+# chartD = {"x": puzzleChart}
+# [np.array_equal(teste, x) for x in chartD.values()]
+# print(possibleMoves({"x": puzzleChart}, "x"))
+
+# nRow = puzzleChart.shape[0]
+# moveList = {"l": -nRow, "r": nRow, "u": -1, "d" :-1}
+# teste = (1,1)
+# teste[1]
+
+# any(np.array(list(np.where(puzzleChart == 0))) < 0)
 
 
 # np.array([0, 3])  list({1: np.array([1, 2]), 2: np.array([0, 3])}.values())
