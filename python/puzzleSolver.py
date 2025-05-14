@@ -21,7 +21,8 @@ def moveNumber(chart, direction):
 def possibleMoves(chartDict, moveIndex):
     for direction in ["u", "d", "l", "r"]:
         newChart = moveNumber(chartDict[moveIndex], direction)
-        alreadyExists = np.all(newChart == np.array([*chartDict.values()]), axis = (1, 2))
+        alreadyExists = np.all(newChart == np.array([*chartDict.values()]), \
+                               axis = (1, 2))
         if(not any(alreadyExists)):
             chartDict[moveIndex + direction] = newChart
     return(chartDict)
