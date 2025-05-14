@@ -45,6 +45,7 @@ def findNumbersImproved(power):
     powerLimit = newtonMethod(f, df,
                               power,
                               x0 = power*log(9, 10) - log(log(10), 10) + 1)
+
     while(num <= (10**(powerLimit) - 1)):
         if(powerSum(num, power) == num):
             numList.append(num)
@@ -53,4 +54,6 @@ def findNumbersImproved(power):
 
 findNumbersImproved(5)
 
-findNumbersImproved(6)
+# findNumbersImproved(6)
+
+# https://www.desmos.com/calculator/ylym2qru9q
