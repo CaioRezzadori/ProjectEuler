@@ -4,11 +4,6 @@ def powerSum(num, power):
         sum += ((num % 10**digitIndex) // 10**(digitIndex - 1))**power
     return(sum)
 
-from math import log
-def upperBound(power):
-    # We want to calculate when (9**power)*y <= 10**y - 1 (9999... 9 y times)
-    x = power*log(9, 10) - log(log(10), 10)
-
 def findNumbers(power):
     num = 2
     numList = []
@@ -25,6 +20,7 @@ findNumbers(5)
 
 
 # Imporved version
+from math import log
 def f(x, power):
     return((9**power)*x - 10**x + 1)
 def df(x, power):
