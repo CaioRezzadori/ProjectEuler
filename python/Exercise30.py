@@ -48,8 +48,19 @@ def findNumbersImproved(power):
         num += 1
     return(numList)
 
-findNumbersImproved(5)
 
-# findNumbersImproved(6)
+sum(findNumbers(5))
+sum(findNumbersImproved(5))
+
+
+
+findNumbers(6)
+findNumbersImproved(6)
 
 # https://www.desmos.com/calculator/ylym2qru9q
+
+
+
+powerLimit = newtonMethod(f, df,
+                            5,
+                            x0 = 5*log(9, 10) - log(log(10), 10) + 1)
