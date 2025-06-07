@@ -23,7 +23,7 @@ def subLists(l, id):
     >>> [[1, 2], [4], [6]]
     '''
     id = sorted(list(id))
-    
+
     output = [l[id[i] + 1:id[i + 1]] for i in range(0, len(id) - 1)]
 
     return([l[:id[0]]] + output + [l[id[-1] + 1:]])
@@ -99,5 +99,3 @@ maxEarnings(earnings = [60, 70, 80, 40, 80, 90, 100, 20],
 
 maxEarnings(earnings = [45, 12, 78, 34, 56, 89, 23, 67, 91],
             k = 4)
-
-# maxEarnings(earnings=shuffle(range(100)))
