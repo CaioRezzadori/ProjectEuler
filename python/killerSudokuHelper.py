@@ -3,20 +3,20 @@ def sumCombinations(num: int, nFactors: int, maxValueFactors: int = 9) -> set[tu
     Find tuples of length "nFactors" made of different integers with max values
     to "maxValueFactors" which sums to "num". Returns set of tuples
     Examples:
-    >>> sumCombinations(45, 9)
-    {(1, 2, 3, 4, 5, 6, 7, 8, 9)}
-    >>> sumCombination(46, 9, 10)
-    {(1, 2, 3, 4, 5, 6, 7, 8, 10)}
     >>> sumCombinations(7, 3)
     {(1, 2, 4)}
     >>> sumCombinations(10, 2)
     {(3, 7), (4, 6), (1, 9), (2, 8)}
+    >>> sumCombinations(45, 9)
+    {(1, 2, 3, 4, 5, 6, 7, 8, 9)}
+    >>> sumCombination(46, 9, 10)
+    {(1, 2, 3, 4, 5, 6, 7, 8, 10)}
     '''
     if(sum(nFactors*(1,)) > num or sum(nFactors*(maxValueFactors,)) < num):
-        raise ValueError("Impossible combination")
+        raise ValueError("impossible combination")
 
     combList = {()}
-    validComb = set()
+    validComb = set(())
     for i in range(1, maxValueFactors + 1):
         for comb in combList:
             if(sum(comb) < num and len(comb) < nFactors):
@@ -25,21 +25,22 @@ def sumCombinations(num: int, nFactors: int, maxValueFactors: int = 9) -> set[tu
                 if(sum(newComb) == num and len(newComb) == nFactors):
                     validComb = validComb.union({newComb})
 
-    if(validComb == set()):
-        raise ValueError("Impossible combination")
+    if(validComb == set(())):
+        raise ValueError("impossible combination")
     return(validComb)
 
-def sudokuCellValues(sudokuTable: list[list[int]], cellIndex: tuple[int, int]):
+def sudokuCellValues(sudokuTable: list[list[int | str]],
+                     cellIndex: tuple[int, int]) -> tuple[int]:
     '''
-    Given a sudoku table, returns integer numbers between 1 and 9 that
-    cells marked with 'x' cannot assume
+    Given a sudoku table 9x9, returns integer numbers between 1 and 9 that
+    cell of index "cellIndex" can assume
     Examples:
     >>> sudokuCellValues(sudokuTable = [[0, 0, 0,    1,  0, 0,     0, 0, 0],
                                         [0, 0, 0,    0,  0, 0,     0, 0, 0],
                                         [0, 0, 0,    0,  0, 0,     0, 0, 0],
 
                                         [0, 0, 0,    0,  9, 0,     0, 0, 0],
-                                        [0, 0, 0,    'x',0, 0,     0, 2, 0], # <
+                                        [0, 0, 0,   'x', 0, 0,     0, 2, 0], # <
                                         [0, 0, 0,    0,  8, 7,     0, 0, 0],
 
                                         [0, 0, 0,    0,  0, 0,     0, 0, 0],
@@ -47,58 +48,121 @@ def sudokuCellValues(sudokuTable: list[list[int]], cellIndex: tuple[int, int]):
                                         [0, 0, 0,    0,  0, 0,     0, 0, 0]],
                                                    # ^
                         cellIndex = (4, 3)
-    (0, 1, 2, 7, 8, 9)
     (3, 4, 5, 6)
     '''
-    # cellValues = ()
+    # Initial possible values
     cellValues = list(range(1, 10))
     squareCenterCell = ((1 + cellIndex[0] // 3)*3 - 1,
                         (1 + cellIndex[1] // 3)*3 - 1)
 
-    for row in range(0, len(sudokuTable)):
-        for col in range(0, len(sudokuTable[row])):
+    for row in range(0, 9):
+        for col in range(0, 9):
             squareCenterIter = ((1 + row // 3)*3 - 1,
-                        (1 + col // 3)*3 - 1)
-            valueIter = sudokuTable[row][col] #
-            if(valueIter == 0 or valueIter == 'x'): #
-                continue #
+                                (1 + col // 3)*3 - 1)
+            valueIter = sudokuTable[row][col]
+            if(valueIter == 0 or valueIter == 'x'):
+                continue
+            # Applying sudoku rules
             if(row == cellIndex[0] or col == cellIndex[1] \
                 or squareCenterCell == squareCenterIter):
-                cellValues.remove(valueIter)
-                # cellValues = cellValues + (valueIter,) if \
-                #     sudokuTable[row][col] else cellValues #
+                try:
+                    cellValues.remove(valueIter)
+                except ValueError: # Value was already removed
+                    continue
 
-    return(tuple(cellValues)) # Removing duplicates
+    return(tuple(cellValues))
 
-def killerSudoku(sudokuTable: list[list[int]], sumValue: int):
-    cageIndexes = set()
-    for row in range(0, len(sudokuTable)):
-        if('x' in sudokuTable[row]):
-            cageIndexes = cageIndexes.union({(row,
-                                              sudokuTable[row].index('x'))})
-    cageValues = {sudokuCellValues(sudokuTable, x) for x in cageIndexes}
-    nDigitCage = len(cageValues)
+from itertools import permutations
 
-    possibleCombs = sumCombinations(sumValue, nDigitCage)
-    # return(cageValues, possibleCombs)
-    for i in possibleCombs:
-        cageIndexesAux = {tuple(set(x).intersection(set(i))) for x in cageValues}
-        # if(...):
-        #     possibleCombs = possibleCombs - {i}
-    return(cageIndexesAux)
+def killerSudoku(sudokuTable: list[list[int | str]], sumValue: int):
+    cageIndexes = []
+    for row in range(0, 9):
+        for col in range(0, 9):
+            if('x' == sudokuTable[row][col]):
+                cageIndexes.append((row, col))
+
+    cageValues = [sudokuCellValues(sudokuTable, id) for id in cageIndexes]
+    possibleCombs = sumCombinations(sumValue, len(cageValues))
+    for comb in possibleCombs:
+        perm = permutations(comb)
+        removeComb = True
+        # Checking if exists arrange respecting sudoku rules
+        for p in perm:
+            if(all(x in y for x,y in zip(p, cageValues))):
+                removeComb = False
+                break
+        possibleCombs = possibleCombs - {comb} if removeComb else possibleCombs
+    # Adjusting output
+
+    return({int(''.join(tuple(str(x) for x in comb))) for comb in possibleCombs})
+
+
+sudokuTable = [[0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+
+               [0, 0, 0,    'x',0, 0,   0, 0, 0],
+               [0, 0, 0,    'x',0 ,0,   0, 0, 0],
+               [0, 0, 0,    'x',0, 0,   0, 0, 0],
+
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0]]
+
+killerSudoku(sudokuTable, 7)
+
+sudokuTable = [[0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+
+               [0, 0, 0,    0, 'x',0,   0, 0, 0],
+               [0, 0, 0,    0, 'x',0,   0, 0, 0],
+               [0, 0, 0,    0,  0, 0,   0, 0, 0],
+
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0]]
+
+killerSudoku(sudokuTable, 10)
+
+sudokuTable = [[0, 0, 0,    0, 4, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 1, 0,     0, 0, 0],
+
+               [0, 0, 0,    0, 'x',0,   0, 0, 0],
+               [0, 0, 0,    0, 'x',0,   0, 0, 0],
+               [0, 0, 0,    0,  0, 0,   0, 0, 0],
+
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0]]
+
+killerSudoku(sudokuTable, 10)
 
 sudokuTable = [[0, 0, 0,    1, 0, 0,     0, 0, 0],
-               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 4, 0,     0, 0, 0],
                [0, 0, 5,    0, 0, 0,     0, 0, 0],
 
-               [0, 0, 0,    'x', 9, 0,   0, 0, 0],
-               [0, 0, 0,    'x','x',0,   0, 2, 0],
-               [0, 0, 6,    'x', 8, 7,   0, 0, 0],
+               [0, 0, 0,    'x', 9, 0,  0, 8, 0],
+               [0, 0, 0,    'x',0 ,0,   0, 2, 0],
+               [0, 0, 6,    0 , 0, 7,   4, 0, 0],
 
                [0, 0, 0,    0, 0, 0,     0, 0, 0],
                [0, 0, 0,    0, 3, 0,     0, 0, 0],
                [0, 0, 0,    0, 0, 0,     0, 0, 0]]
 
-sudokuCellValues(sudokuTable, (4, 3))
+killerSudoku(sudokuTable, 10)
+
+sudokuTable = [[0, 0, 0,    1, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 4, 0,     0, 0, 0],
+               [0, 0, 5,    0, 0, 0,     0, 0, 0],
+
+               [0, 0, 0,    'x', 9, 0,  0, 0, 0],
+               [0, 0, 0,    'x',0 ,0,   8, 2, 0],
+               [0, 0, 6,    0 , 0, 7,   4, 0, 0],
+
+               [0, 0, 0,    0, 0, 0,     0, 0, 0],
+               [0, 0, 0,    0, 3, 0,     0, 0, 0],
+               [0, 0, 0,    0, 0, 0,     0, 0, 0]]
 
 killerSudoku(sudokuTable, 10)

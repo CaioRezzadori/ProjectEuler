@@ -11,11 +11,16 @@ def saddlePoints(grid: list[list[int]]):
       raise ValueError("invalid heigh")
 
     for col in range(len(grid[row])):
+      try:
+        minValueCol = min([grid[x][col] for x in range(len(grid))])
+      except TypeError:
+        raise ValueError("invalid heigh")
+
       if(grid[row][col] <= 0):
         raise ValueError("invalid height")
 
       if(grid[row][col] == maxValueRow and \
-          grid[row][col] == min([grid[x][col] for x in range(len(grid))])):
+          grid[row][col] == minValueCol):
             return(row + 1, col + 1)
 
   return(None)
@@ -40,6 +45,10 @@ saddlePoints([[9, 8, 7, 8],
 
 saddlePoints([[9, 8, '7', 8],
               [2, 3, 1, 4],
+              [6, 6, 8, 1]])
+
+saddlePoints([[9, 8, 7, 8],
+              ['2', 3, 1, 4],
               [6, 6, 8, 1]])
 
 saddlePoints([[9, 8, 7],
