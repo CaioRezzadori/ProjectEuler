@@ -24,8 +24,8 @@ def saddlePoints(grid: list[list[int]]) -> list[tuple[int, int]]:
   for row in range(len(grid)):
     try:
       maxValueRow = max(grid[row])
-    except TypeError:
-      raise ValueError("invalid heigh")
+    except TypeError as error:
+      raise ValueError(f"invalid heigh: {error}")
 
     for col in range(len(grid[row])):
       try:

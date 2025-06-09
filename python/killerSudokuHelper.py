@@ -229,4 +229,4 @@ sudokuTable = [[0, 0, 0,    1, 0, 0,     0, 0, 0],
                [0, 0, 0,    0, 0, 0,     0, 0, 0]]
 
 
-killerSudoku(sudokuTable, 19)
+killerSudoku(sudokuTable, 18)
