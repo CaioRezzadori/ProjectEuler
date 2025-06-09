@@ -1,4 +1,4 @@
-# https://www.codewars.com/kata/66e03a09eeaad7e94d9f40a9
+#https://www.codewars.com/kata/66e03a09eeaad7e94d9f40a9
 def subLists(l, id):
     '''
     Splits list "l" by removing elements from indexes in "id"
@@ -69,7 +69,7 @@ def maxEarnings(earnings, k):
         # Update restDays
         comb = minSumIndex(sortedEarnings,
                            idRestrictions = testedCombinations)
-        testedCombinations = testedCombinations.union({comb})
+        testedCombinations.update({comb})
         restDays = tuple([sortedIdEarnings[i] for i in comb])
     return tuple([earnings[i] for i in restDays])
 
@@ -84,3 +84,11 @@ maxEarnings(earnings = [60, 70, 80, 40, 80, 90, 100, 20],
 
 maxEarnings(earnings = [45, 12, 78, 34, 56, 89, 23, 67, 91],
             k = 4)
+
+
+from random import shuffle
+earnings = list(range(40))
+shuffle(earnings)
+
+maxEarnings(earnings = earnings,
+            k = 10)
