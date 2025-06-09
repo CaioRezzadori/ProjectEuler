@@ -1,19 +1,4 @@
-# Task
-# You have a list of daily earnings from a freelance job. You can choose to work
-# or skip those days. You can work for up to k consecutive days, but after that,
-# you must take at least one break day where you earn nothing.
-# Your task is to determine the maximum total earnings you can achieve while
-# following this rule.
-#
-# Inputs
-# earnings: an array of non-negative integers ( 0 <= length earnings < 100 ).
-# k: an integer representing the maximum number of consecutive working days
-# ( 1 <= k < 100 ).
-#
-# Output
-# an integer representing the maximum earnings you can achieve while respecting
-# the mandatory break rule.
-
+# https://www.codewars.com/kata/66e03a09eeaad7e94d9f40a9
 def subLists(l, id):
     '''
     Splits list "l" by removing elements from indexes in "id"

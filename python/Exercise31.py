@@ -1,22 +1,21 @@
-def totalSumCoins(coinTypes: tuple[int], nCoins: tuple[int]):
-  if(len(coinTypes) != len(nCoins)):
-    raise ValueError("coinTypes and nCoins must have same length")
-  totalSum = 0
-  for i in range(0, len(coinTypes)):
-    totalSum += coinTypes[i]*nCoins[i]
-  return(totalSum)
-
-def coinSums(coinTypes = (1, 2, 5, 10, 20, 50, 100, 200), totalSum = 200):
+# https://projecteuler.net/problem=31
+def coinSums(coinTypes: tuple[int] = (1, 2, 5, 10, 20, 50, 100, 200),
+             totalSum: int = 200):
+  maxNumber = tuple(totalSum // x for x in coinTypes)
   nCoins = len(coinTypes)
-  combList = {()}
-  validComb = set(())
-  for i in range(0, (totalSum + 1) // coinTypes[0]):
-    for comb in combList:
-      newComb = comb + (i, )
-      if(len(comb) < nCoins):
-        combList = combList.union({newComb})
-      if(len(validComb) == nCoins):
-        validComb = validComb.union({newComb})
-  return(combList)
+  combList = [()]
+  validCombs = []
+  for comb in combList:
+    combSize = len(comb)
+    moneyCoins = tuple(coinTypes[i]*comb[i] for i in range(combSize))
+    if(combSize == nCoins and sum(moneyCoins) == totalSum):
+      validCombs.append(comb)
+    if(sum(moneyCoins) > totalSum or combSize >= nCoins):
+      continue # Pruning combinations
+    for i in range(maxNumber[combSize] + 1):
+      combList.append(comb + (i,))
+  return(validCombs)
 
-coinSums()
+result = coinSums()
+
+len(result)
