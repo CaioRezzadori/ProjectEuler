@@ -1,10 +1,26 @@
 # https://exercism.org/tracks/python/exercises/saddle-points
-def saddlePoints(grid: list[list[int]]):
+
+def saddlePoints(grid: list[list[int]]) -> list[tuple[int, int]]:
+  '''
+  Given a square matrix of numeric values, returns indexes + (1, 1) of
+  elements which are the maximum of it's rows and the minimum of it's columns.
+  Solution may not exist, or if so, may have more than one.
+  Examples:
+  >>> saddlePoints([[9, 8, 7, 8],
+                    [5, 3, 2, 4],
+                    [6, 6, 7, 1]])
+  [(2, 1)]
+  >>> saddlePoints([[10, 8, 7, 8],
+                    [5, 3, 2,  5],
+                    [11, 6, 1, 11]])
+  [(2, 1), (2, 4)]
+  '''
   nCols = len(grid[0])
 
   if(any([len(x) != nCols for x in grid])):
     raise ValueError("irregular matrix")
 
+  solutions = []
   for row in range(len(grid)):
     try:
       maxValueRow = max(grid[row])
@@ -22,14 +38,19 @@ def saddlePoints(grid: list[list[int]]):
 
       if(grid[row][col] == maxValueRow and \
           grid[row][col] == minValueCol):
-            return(row + 1, col + 1)
+            solutions.append((row + 1, col + 1))
 
-  return(None)
+  return(solutions)
 
 
 saddlePoints([[9, 8, 7, 8],
               [5, 3, 2, 4],
               [6, 6, 7, 1]])
+
+
+saddlePoints([[10, 8, 7, 8],
+              [5, 3, 2,  5],
+              [11, 6, 1, 11]])
 
 saddlePoints([[9, 8, 7, 8],
               [2, 3, 5, 4],

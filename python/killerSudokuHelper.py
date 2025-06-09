@@ -1,8 +1,9 @@
 # https://exercism.org/tracks/r/exercises/killer-sudoku-helper
+
 def sumCombinations(num: int, nFactors: int, maxValueFactors: int = 9) -> set[tuple[int]]:
     '''
     Find tuples of length "nFactors" made of different integers with max values
-    to "maxValueFactors" which sums to "num". Returns set of tuples
+    to "maxValueFactors" which sums to "num". Returns set of tuples.
     Examples:
     >>> sumCombinations(7, 3)
     {(1, 2, 4)}
@@ -34,7 +35,7 @@ def sudokuCellValues(sudokuTable: list[list[int | str]],
                      cellIndex: tuple[int, int]) -> tuple[int]:
     '''
     Given a sudoku table 9x9, returns integer numbers between 1 and 9 that
-    cell of index "cellIndex" can assume
+    cell of index "cellIndex" can assume.
     Examples:
     >>> sudokuCellValues(sudokuTable = [[0, 0, 0,    1,  0, 0,     0, 0, 0],
                                         [0, 0, 0,    0,  0, 0,     0, 0, 0],
@@ -76,6 +77,38 @@ def sudokuCellValues(sudokuTable: list[list[int | str]],
 from itertools import permutations
 
 def killerSudoku(sudokuTable: list[list[int | str]], sumValue: int):
+    '''
+    Given a sudoku table 9x9, return's possible sums combinations of "sumValue"
+    where the cages are represented by adjacent cells with 'x', respecting
+    the rules of sudoku.
+    Examples:
+    >>> killerSudoku(sudokuTable = [[0, 0, 0,    0, 0, 0,     0, 0, 0],
+                                    [0, 0, 0,    0, 0, 0,     0, 0, 0],
+                                    [0, 0, 0,    0, 0, 0,     0, 0, 0],
+
+                                    [0, 0, 0,    'x',0, 0,   0, 0, 0],
+                                    [0, 0, 0,    'x',0 ,0,   0, 0, 0],
+                                    [0, 0, 0,    'x',0, 0,   0, 0, 0],
+
+                                    [0, 0, 0,    0, 0, 0,     0, 0, 0],
+                                    [0, 0, 0,    0, 0, 0,     0, 0, 0],
+                                    [0, 0, 0,    0, 0, 0,     0, 0, 0]],
+                    sumValue = 7)
+    {124}
+    >>> killerSudoku(sudokuTable = [[0, 0, 0,    1, 0, 0,     0, 0, 0],
+                                    [0, 0, 0,    0, 4, 0,     0, 0, 0],
+                                    [0, 0, 5,    0, 0, 0,     0, 0, 0],
+
+                                    [0, 0, 0,    'x', 9, 0,  0, 8, 0],
+                                    [0, 0, 0,    'x',0 ,0,   0, 2, 0],
+                                    [0, 0, 6,    0 , 0, 7,   4, 0, 0],
+
+                                    [0, 0, 0,    0, 0, 0,     0, 0, 0],
+                                    [0, 0, 0,    0, 3, 0,     0, 0, 0],
+                                    [0, 0, 0,    0, 0, 0,     0, 0, 0]],
+                     sumValue = 10)
+    {28, 46}
+    '''
     cageIndexes = []
     for row in range(0, 9):
         for col in range(0, 9):
