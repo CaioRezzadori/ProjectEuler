@@ -13,7 +13,7 @@ def coinSums(coinTypes: tuple[int] = (1, 2, 5, 10, 20, 50, 100, 200),
   maxNumber = tuple(totalSum // x for x in coinTypes)
   nCoins = len(coinTypes)
   combList = [()]
-  nValidCombs = []
+  nValidCombs = 0 #[]
   for comb in combList:
     combSize = len(comb)
     totalMoney = sum(tuple(coinTypes[i]*comb[i] for i in range(combSize)))
@@ -25,6 +25,6 @@ def coinSums(coinTypes: tuple[int] = (1, 2, 5, 10, 20, 50, 100, 200),
       combList.append(comb + (i,))
   return(nValidCombs) # validCombs
 
-result = coinSums()
+# result = coinSums()
 
-coinSums((1, 2, 5, 10), totalSum=10)
+# coinSums((1, 2, 5, 10), totalSum=10)

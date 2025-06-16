@@ -7,7 +7,7 @@ def spiralMatrix(size: int):
   >>> spiralMatrix(3):
   [[1, 2, 3],
    [8, 9, 4],
-   [7, 6, 5]],
+   [7, 6, 5]]
   '''
   visitedIds = [(0, 0)]
   directions = {'right': (0, 1),
@@ -40,13 +40,3 @@ def spiralMatrix(size: int):
       output[row][col] = valueMapping[(row, col)]
 
   return(output)
-
-for row in spiralMatrix(3):
-  print(row)
-
-for row in spiralMatrix(4):
-  print(row)
-
-for row in spiralMatrix(5):
-  print(row)
-
