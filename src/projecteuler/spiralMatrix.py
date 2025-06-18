@@ -1,6 +1,6 @@
 # https://exercism.org/tracks/python/exercises/spiral-matrix
 
-def spiralMatrix(size: int):
+def spiralMatrix(size: int) -> list[list[int]]:
   '''
   Create spiral matrix of size "size".
   Examples:
@@ -15,11 +15,13 @@ def spiralMatrix(size: int):
                'left': (0, -1),
                'up': (-1, 0)}
   directionKey = 'right'
-  while(len(visitedIds) < size**2):
+
+  while len(visitedIds) < size**2:
     newId = tuple(x + y for x, y in zip(visitedIds[-1],
                                         directions[directionKey]))
-    if(0 <= newId[0] < size and 0 <= newId[1] < size and\
-       newId not in visitedIds):
+
+    if len(newId) == 2 and 0 <= newId[0] < size and 0 <= newId[1] < size and\
+       newId not in visitedIds:
       visitedIds.append(newId)
     else:
       match directionKey:
@@ -39,4 +41,4 @@ def spiralMatrix(size: int):
     for col in range(len(output[row])):
       output[row][col] = valueMapping[(row, col)]
 
-  return(output)
+  return output
