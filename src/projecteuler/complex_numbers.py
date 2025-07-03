@@ -8,7 +8,7 @@ class ComplexNumber:
     Define complex numbers and it's operations
     """
 
-    def __init__(self, real: float, imaginary: float) -> None:
+    def __init__(self, real: int | float, imaginary: int | float) -> None:
         self.real = real
         self.imaginary = imaginary
 
@@ -26,9 +26,7 @@ class ComplexNumber:
             return ComplexNumber(
                 self.real + other.real, self.imaginary + other.imaginary
             )
-
-        else:
-            return ComplexNumber(self.real + other, self.imaginary)
+        return ComplexNumber(self.real + other, self.imaginary)
 
     def __radd__(self, other: int | float) -> "ComplexNumber":
         return ComplexNumber(self.real + other, self.imaginary)
@@ -38,8 +36,7 @@ class ComplexNumber:
             return ComplexNumber(
                 self.real - other.real, self.imaginary - other.imaginary
             )
-        else:
-            return ComplexNumber(self.real - other, self.imaginary)
+        return ComplexNumber(self.real - other, self.imaginary)
 
     def __rsub__(self, other: int | float) -> "ComplexNumber":
         return ComplexNumber(other - self.real, -self.imaginary)
@@ -50,8 +47,7 @@ class ComplexNumber:
                 self.real * other.real - self.imaginary * other.imaginary,
                 self.real * other.imaginary + self.imaginary * other.real,
             )
-        else:
-            return ComplexNumber(self.real * other, self.imaginary * other)
+        return ComplexNumber(self.real * other, self.imaginary * other)
 
     def __rmul__(self, other: int | float) -> "ComplexNumber":
         return ComplexNumber(self.real * other, self.imaginary * other)
@@ -67,8 +63,7 @@ class ComplexNumber:
                 (self.imaginary * other.real - self.real * other.imaginary)
                 / (abs(other) ** 2),
             )
-        else:
-            return ComplexNumber(self.real / other, self.imaginary / other)
+        return ComplexNumber(self.real / other, self.imaginary / other)
 
     def __rtruediv__(self, other: int | float) -> "ComplexNumber":
         return ComplexNumber(other, 0) / ComplexNumber(self.real, self.imaginary)
