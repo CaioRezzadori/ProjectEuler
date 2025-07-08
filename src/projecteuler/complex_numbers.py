@@ -1,7 +1,7 @@
 # https://exercism.org/tracks/python/exercises/complex-numbers
 
-import math
-
+from math import cos, sin, exp
+from typing import Any
 
 class ComplexNumber:
     """
@@ -12,13 +12,13 @@ class ComplexNumber:
         self.real = real
         self.imaginary = imaginary
 
-    def __eq__(self, other: "ComplexNumber | int | float"):
+    def __eq__(self, other: "ComplexNumber | int | float") -> bool:
         if not isinstance(other, ComplexNumber):
             return NotImplemented
 
         return self.real == other.real and self.imaginary == other.imaginary
 
-    def __round__(self):
+    def __round__(self) -> "ComplexNumber":
         return ComplexNumber(round(self.real, 2), round(self.imaginary, 2))
 
     def __add__(self, other: "ComplexNumber | int | float") -> "ComplexNumber":
@@ -72,6 +72,6 @@ class ComplexNumber:
         return ComplexNumber(self.real, -self.imaginary)
 
     def exp(self):
-        return ComplexNumber(math.exp(self.real), 0) * ComplexNumber(
-            math.cos(self.imaginary), math.sin(self.imaginary)
+        return ComplexNumber(exp(self.real), 0) * ComplexNumber(
+            cos(self.imaginary), sin(self.imaginary)
         )

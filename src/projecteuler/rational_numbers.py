@@ -1,3 +1,5 @@
+from typing import Any
+
 class Rational:
     """
     Define rational number and it's operations
@@ -31,8 +33,12 @@ class Rational:
     def __rsub__(self, other: int | float) -> "Rational":
         return Rational(-self.numerator + other * self.denominator, self.denominator)
 
-    def __eq__(self, other: "Rational | float") -> bool:
-        return (self - other).numerator == 0
+    def __eq__(self, other: "Rational | Any") -> bool:
+        if isinstance(other, Rational):
+            return (self - other).numerator == 0
+        if isinstance(other, float):
+            return (self.numerator - other) == 0
+        raise ValueError("error")
 
     def __mul__(self, other: "Rational | int | float") -> "Rational":
         if isinstance(other, Rational):
