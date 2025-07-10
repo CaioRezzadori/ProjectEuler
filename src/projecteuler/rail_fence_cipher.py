@@ -67,11 +67,8 @@ def decode(encoded_message: str, rails: int) -> str:
     direction = -1
     i = 0
     while any([len(x) > 0 for x in chunks]):
-        try:
-            message += chunks[i][0]
-            del chunks[i][0]
-        except IndexError:
-            continue
+        message += chunks[i][0]
+        del chunks[i][0]
         if i in (0, rails - 1):
             direction *= -1
         i += direction
