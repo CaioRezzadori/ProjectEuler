@@ -27,7 +27,10 @@ def encode(message: str, rails: int) -> str:
                     direction_down = not direction_down  
     return encoded_message
 
-def row_chunks__(encoded_message:str, rails: int) -> list[str]:
+def row_chunks__(encoded_message:str, rails: int) -> list[list[str]]:
+    '''
+    Separete encoded message to rows chunks following rail fence cipher
+    '''
     chunks: list[list[str]] = [[] for _ in range(rails)]
     message_size = len(encoded_message)
     last_id = 0
@@ -54,6 +57,9 @@ def row_chunks__(encoded_message:str, rails: int) -> list[str]:
     return chunks
 
 def decode(encoded_message: str, rails: int) -> str:
+    '''
+    Decodes rail fence cipher
+    '''
     if rails == 1 or rails >= len(encoded_message):
          return encoded_message
     chunks = row_chunks__(encoded_message, rails)
