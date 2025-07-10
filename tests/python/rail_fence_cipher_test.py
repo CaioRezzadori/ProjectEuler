@@ -35,3 +35,6 @@ class RailFenceCipherTest(unittest.TestCase):
             decode("133714114238148966225439541018335470986172518171757571896261", 6),
             "112358132134558914423337761098715972584418167651094617711286",
         )
+    
+    def test_decode_with_ending_in_the_middle(self):
+        self.assertMultiLineEqual(decode("17268359", 4), "123456789")
