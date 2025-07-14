@@ -4,10 +4,7 @@
 
 import unittest
 
-from projecteuler.rail_fence_cipher import (
-    decode,
-    encode,
-)
+from projecteuler.rail_fence_cipher import decode, encode
 
 
 class RailFenceCipherTest(unittest.TestCase):
@@ -35,7 +32,7 @@ class RailFenceCipherTest(unittest.TestCase):
             decode("133714114238148966225439541018335470986172518171757571896261", 6),
             "112358132134558914423337761098715972584418167651094617711286",
         )
-    
+
     def test_decode_with_four_rails(self):
         self.assertMultiLineEqual(decode("172683594", 4), "123456789")
 
