@@ -99,7 +99,7 @@ def drinks_water() -> str | None:
     """
     Solves puzzle and gives nationality of who drinks water
     """
-    result = solvePuzzle()
+    result = solve_puzzle()
     id__ = result["drinks"].index("water")
     return result["nationalities"][id__]
 
@@ -108,6 +108,6 @@ def owns_zebra():
     """
     Solves puzzle and gives nationality of who owns the zebra
     """
-    result = solvePuzzle()
+    result = solve_puzzle()
     id__ = result["pets"].index("zebra")
     return result["nationalities"][id__]
