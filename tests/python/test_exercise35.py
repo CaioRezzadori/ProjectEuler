@@ -1,4 +1,4 @@
-from projecteuler.Exercise35 import circularPrimes, isCircularPrime, isPrime
+from projecteuler.Exercise35 import circularPrimes
 
 
 def teste_exercise35():
