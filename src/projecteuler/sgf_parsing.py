@@ -24,8 +24,45 @@ class SgfTree:
     def __ne__(self, other):
         return not self == other
 
+# TODO parser python
+def parse_rec(input_string: str):  # -> Any | SgfTree | None:
+    children = []
+    properties = {}
+    arg = ""
+    closed = False
+    for index, key in enumerate(input_string):
+        # New children
+        if key == "(":
+            closed = False
+        elif key == ";":
+            try:
+                children.append(parse_rec(input_string[index + 1:]))
+            except IndexError:
+                raise ValueError("tree missing")
+            arg = "children_properties"
+            # tree = SgfTree(children=children, properties=properties)
+            # arg = "new_children"
+            try:
+                del prop_name
+            except NameError:
+                continue
+            prop_name_id = index + 1
+        elif key == "[":
+            try:
+                prop_name = input_string[prop_name_id:index] if\
+                    arg == "new_children" else prop_name
+            except NameError:
+                # raise ""
+            arg = "prop"
+            start_id = index + 1
 
-def parse(input_string):
+        elif key == ")":
+            closed = True
+            return SgfTree(properties=properties)
+    if not closed:
+        raise ValueError("tree missing")
+
+def parse_ai(input_string):
     if not input_string:
         raise ValueError("tree missing")
 
