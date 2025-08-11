@@ -9,7 +9,5 @@ def kangaroo(kanga1: float, speed1: float, kanga2: float, speed2: float) -> bool
     if relative_speed * delta_distance > 0:
         delta_distance = abs(delta_distance)
         relative_speed = abs(relative_speed)
-        jumps = delta_distance / relative_speed
-        if jumps == int(jumps):
-            return True
+        return delta_distance % relative_speed == 0
     return False
