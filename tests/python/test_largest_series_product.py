@@ -1,7 +1,3 @@
-# These tests are auto-generated with test data from:
-# https://github.com/exercism/problem-specifications/tree/main/exercises/largest-series-product/canonical-data.json
-# File last updated on 2025-06-20
-
 import pytest
 
 from projecteuler.largest_series_product import largest_series_product
@@ -49,25 +45,23 @@ def test_reports_zero_if_all_spans_include_zero():
 
 
 def test_rejects_span_longer_than_string_length():
-    with pytest.raises(ValueError, match="span must not exceed string length") as err:
-        assert largest_series_product("123", 4).largest_product() is err
+    with pytest.raises(ValueError, match="span must not exceed string length"):
+        assert largest_series_product("123", 4).largest_product()
 
 
 def test_rejects_empty_string_and_nonzero_span():
-    with pytest.raises(ValueError, match="span must not exceed string length") as err:
-        largest_series_product("", 1).largest_product() is err
+    with pytest.raises(ValueError, match="span must not exceed string length"):
+        largest_series_product("", 1).largest_product()
 
 
 def test_rejects_invalid_character_in_digits():
-    with pytest.raises(
-        ValueError, match="digits input must only contain digits"
-    ) as err:
-        largest_series_product("1234a5", 2).largest_product() is err
+    with pytest.raises(ValueError, match="digits input must only contain digits"):
+        largest_series_product("1234a5", 2).largest_product()
 
 
 def test_rejects_negative_span():
-    with pytest.raises(ValueError, match="span must not be negative") as err:
-        largest_series_product("12345", -1).largest_product() is err
+    with pytest.raises(ValueError, match="span must not be negative"):
+        largest_series_product("12345", -1).largest_product()
 
 
 # Additional tests for this track
