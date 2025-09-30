@@ -1,7 +1,3 @@
-# These tests are auto-generated with test data from:
-# https://github.com/exercism/problem-specifications/tree/main/exercises/-counting/canonical-data.json
-# File last updated on 2023-07-19
-
 from pytest import raises
 
 from projecteuler.go_counting import BLACK, NONE, WHITE, Board

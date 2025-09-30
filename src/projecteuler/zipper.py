@@ -1,6 +1,13 @@
+from typing import Optional
+
+
 class Zipper:
 
-    def __init__(self, tree, parent):
+    def __init__(
+        self,
+        tree: "Optional[Zipper]",
+        parent: "Optional[Zipper]",
+    ):
         self.tree = tree
         self.parent = parent
 
@@ -39,4 +46,3 @@ class Zipper:
         if self.parent:
             return self.parent.to_tree()
         return self.tree
-        # return self.tree

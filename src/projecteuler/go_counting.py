@@ -10,17 +10,28 @@ class Board:
         board (list[str]): A two-dimensional Go board
     """
 
-    def __init__(self, board: list[str]):
+    def __init__(
+        self,
+        board: list[str],
+    ):
         self.board = board
 
-    def coordinate_is_valid(self, x: int, y: int) -> bool:
+    def coordinate_is_valid(
+        self,
+        x: int,
+        y: int,
+    ) -> bool:
         return (0 <= x < len(self.board[0])) and (0 <= y < len(self.board))
 
     def get_element(self, x: int, y: int):
         return self.board[y][x] if self.coordinate_is_valid(x, y) else None
 
     def __walk__(
-        self, x: int, y: int, visited_points: set[tuple[int, int]], stones: set[str]
+        self,
+        x: int,
+        y: int,
+        visited_points: set[tuple[int, int]],
+        stones: set[str],
     ) -> tuple[set[tuple[int, int]], set[str]]:
         stone = self.get_element(x, y)
         if (
