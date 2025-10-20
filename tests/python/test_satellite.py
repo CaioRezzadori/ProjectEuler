@@ -25,11 +25,23 @@ def test_tree_with_many_items():
 
     expected = {
         "v": "a",
-        "l": {"v": "i", "l": {}, "r": {}},
+        "l": {
+            "v": "i",
+            "l": {},
+            "r": {},
+        },
         "r": {
             "v": "x",
-            "l": {"v": "f", "l": {}, "r": {}},
-            "r": {"v": "r", "l": {}, "r": {}},
+            "l": {
+                "v": "f",
+                "l": {},
+                "r": {},
+            },
+            "r": {
+                "v": "r",
+                "l": {},
+                "r": {},
+            },
         },
     }
     assert tree_from_traversals(preorder, inorder) == expected
@@ -86,6 +98,62 @@ def test_tree_with_many_items_3():
                 },
             },
             "r": {},
+        },
+    }
+    assert tree_from_traversals(preorder, inorder) == expected
+
+
+def test_tree_with_many_items_4():
+    preorder = ["i", "x", "f", "a", "r"]
+    inorder = ["a", "x", "i", "f", "r"]
+
+    expected = {
+        "v": "i",
+        "l": {
+            "v": "x",
+            "l": {
+                "v": "a",
+                "l": {},
+                "r": {},
+            },
+            "r": {},
+        },
+        "r": {
+            "v": "f",
+            "l": {},
+            "r": {
+                "v": "r",
+                "l": {},
+                "r": {},
+            },
+        },
+    }
+    assert tree_from_traversals(preorder, inorder) == expected
+
+
+def test_tree_with_many_items_5():
+    preorder = ["x", "a", "f", "i", "r"]
+    inorder = ["a", "x", "i", "f", "r"]
+
+    expected = {
+        "v": "x",
+        "l": {
+            "v": "a",
+            "l": {},
+            "r": {},
+        },
+        "r": {
+            "v": "f",
+            "l": {
+                "v": "i",
+                "l": {},
+                "r": {},
+            },
+            "r": {
+                "v": "r",
+                "l": {},
+                "r": {},
+            },
         },
     }
     assert tree_from_traversals(preorder, inorder) == expected
