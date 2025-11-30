@@ -1,4 +1,4 @@
-def nRowPascalTriangle(n: int):
+def nRowPascalTriangle(n: int) -> list[int]:
     if n == 1:
         return [1]
     if n == 2:
@@ -11,7 +11,7 @@ def nRowPascalTriangle(n: int):
     return row
 
 
-def nRowPascalTriangleTabulation(n: int):
+def nRowPascalTriangleTabulation(n: int) -> list[int]:
     rows = [[1], [1, 1]] + [[1 for _ in range(0, i)] for i in range(3, n + 1)]
     # Bottom-up approach
     for idx in range(2, n):
