@@ -1,9 +1,14 @@
-from typing import Any
+from typing import Any, Literal
 
-operators = {"+": "__add__", "-": "__sub__", "*": "__mul__", "/": "__floordiv__"}
+operators = {
+    "+": "__add__",
+    "-": "__sub__",
+    "*": "__mul__",
+    "/": "__floordiv__",
+}
 
 
-def applyOperator(num1: str, num2: str, op: str):
+def applyOperator(num1: str, num2: str, op: str) -> Any | None | Literal[0]:
     if op in operators.keys():
         if op == "/" and (abs(int(num1)) < abs(int(num2))):
             return 0
@@ -26,11 +31,11 @@ def solveRec(
     return solveRec(numList, symbolList[0], symbolList[1:])
 
 
-def solve(symbolList: list[Any]):
+def solve(symbolList: list[Any]) -> str | int | Any:
     return solveRec([], None, symbolList)
 
 
-def solveDP(symbolList: list[str]):
+def solveDP(symbolList: list[str]) -> None | Any | str | Literal[0]:
     numList: list[Any] = []
     currentNumber = None
     while len(symbolList) > 0 or len(numList) > 0:
