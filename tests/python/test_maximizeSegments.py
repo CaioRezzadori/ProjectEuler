@@ -1,4 +1,4 @@
-from projecteuler.maximizeSegments import solve, solveMemoization
+from projecteuler.maximizeSegments import solve, solveMemoization, solveTabulation
 
 
 def test_1():
@@ -39,3 +39,23 @@ def test_4_memo():
 
 def test_5_memo():
     assert 5 == solveMemoization(11, (2, 3, 5))
+
+
+def test_1_tab():
+    assert 4 == solveTabulation(4, (2, 1, 1))
+
+
+def test_2_tab():
+    assert 2 == solveTabulation(5, (5, 3, 2))
+
+
+def test_3_tab():
+    assert 0 == solveTabulation(7, (8, 9, 10))
+
+
+def test_4_tab():
+    assert 20 == solveTabulation(40, (3, 3, 2))
+
+
+def test_5_tab():
+    assert 5 == solveTabulation(11, (2, 3, 5))

@@ -26,6 +26,17 @@ def solveMemoization(n: int, cuts: tuple[int, int, int]):
     return solve_rec(n, cuts)
 
 
+def solveTabulation(n: int, cuts: tuple[int, int, int]):
+    if n == 0:
+        return 0
+    memo = [0 for _ in range(n + 1)]
+    for i in range(1, n + 1):
+        for seg in cuts:
+            if i - seg >= 0:
+                memo[i] = max(memo[i], memo[i - seg] + 1)
+    return memo[n]
+
+
 # def solve(params: tuple[int, int, int, int]) -> int:
 #     def solve_rec(
 #         params: tuple[int, int, int, int],
